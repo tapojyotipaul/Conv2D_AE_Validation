@@ -36,7 +36,7 @@ from keras.backend import int_shape
 
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from sklearn.model_selection import train_test_split
-from tensorflow import set_random_seed
+# from tensorflow import set_random_seed
 
 #import librosa.core
 # from import
@@ -48,15 +48,15 @@ import yaml
 
 from numpy.random import seed
 seed(1)
-from tensorflow import set_random_seed
-set_random_seed(2)
+# from tensorflow import set_random_seed
+#set_random_seed(2)
 
 from sklearn.externals.joblib import load, dump
 from sklearn import preprocessing
 
 # set seed
 ########################################################################
-set_random_seed(1234)
+#set_random_seed(1234)
 ########################################################################
 print("Loading Packages Complete")
 ########################################################################
@@ -795,7 +795,7 @@ if __name__=='__main__':
     ob_ct = 1  # Start with a single observation
     logging.info(STATS)
     temp_df = pd.DataFrame()
-    while ob_ct <= 100:
+    while ob_ct <= 10000:
         temp = run_inference(ob_ct)
         temp["No_of_Observation"] = ob_ct
         temp_df = temp_df.append(temp)
