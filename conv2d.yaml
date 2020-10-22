@@ -1,0 +1,37 @@
+dev_directory : C:\\Users\\tapojyoti.paul\\Documents\\Intel\\Local DenseAE\\DenseAE\\DenseAE\\dev_data_fan\\Check\\Actual_Data
+eval_directory : C:/Users/tapojyoti.paul/Documents/Intel/12 Conv2D AutoEncoder/Conv2DAE
+model_directory: C:/Users/tapojyoti.paul/Documents/Intel/12 Conv2D AutoEncoder/Conv2DAE
+result_directory: C:/Users/tapojyoti.paul/Documents/Intel/12 Conv2D AutoEncoder/Conv2DAE
+scalers_directory: C:/Users/tapojyoti.paul/Documents/Intel/12 Conv2D AutoEncoder/Conv2DAE
+features_directory: C:/Users/tapojyoti.paul/Documents/Intel/12 Conv2D AutoEncoder/Conv2DAE
+result_file: result.csv
+
+max_fpr : 0.1
+
+stream:
+  frame_length: 16000
+  hop_length: 16000
+
+step: 3
+
+feature:
+  n_mels: 128
+  frames : 5
+  n_fft: 1024
+  hop_length: 512
+  power: 1.0
+
+autoencoder:
+  latentDim: 40
+  shape0: 32
+
+fit:
+  compile:
+    optimizer : adam
+    loss : mean_squared_error
+  epochs : 100
+  batch_size : 64
+  shuffle : True
+  validation_split : 0.1
+  verbose : 1
+
