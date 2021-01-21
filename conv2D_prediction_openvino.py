@@ -806,7 +806,7 @@ def run_inference(num_observations:int = 1000):
         total_time = end_time - start_time
         run_times.append(total_time*10e3)
 
-        inference_time = total_time*(10e6)/num_rows
+        inference_time = total_time*(10e3)/num_rows
         inference_times.append(inference_time)
 
     print(num_observations, ", ", calculate_stats(inference_times))
@@ -838,7 +838,7 @@ def run_inference_ov(num_observations:int = 1000):
         total_time = end_time - start_time
         run_times.append(total_time*10e3)
 
-        inference_time = total_time*(10e6)/num_rows
+        inference_time = total_time*(10e3)/num_rows
         inference_times.append(inference_time)
     
     print("count of batches:",count)
