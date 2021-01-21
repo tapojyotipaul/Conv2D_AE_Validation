@@ -762,6 +762,28 @@ import logging
 from pathlib import Path
 from timeit import default_timer as timer
 
+
+import os
+import sys
+import numpy as np
+from openvino.inference_engine import IENetwork, IECore
+
+plugin_dir = None
+model_xml = r'.\batch_100\my_model.xml'
+model_bin = r'.\batch_100\my_model.bin'
+
+plugin_dir = None
+ie = IECore()
+# versions = ie.get_versions("CPU")
+# Read IR
+net = IENetwork(model=model_xml, weights=model_bin)
+# check net.inputs.keys(), net.outputs
+input_blob = next(iter(net.inputs))
+out_blob = next(iter(net.outputs))
+# exec_net = plugin.load(network=net)
+exec_net_100 = ie.load_network(network=net, device_name="CPU")
+del net
+
 NUM_LOOPS = 10
 def run_inference(num_observations:int = 1000):
     """Run xgboost for specified number of observations"""
@@ -807,7 +829,7 @@ def run_inference_ov(num_observations:int = 1000):
         count = 0
         res_all = np.empty((0, 1, 32, 128), int)
         while i<num_observations:
-            res = exec_net.infer(inputs={input_blob: data[i:i+1000]})
+            res = exec_net_100.infer(inputs={input_blob: data[i:i+1000]})
             res_all = np.append(res_all, res['conv2d_transpose_5/BiasAdd/Add'], axis=0)
             i = i+1000
             count = count+1        
