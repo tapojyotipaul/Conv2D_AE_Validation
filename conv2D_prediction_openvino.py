@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 22 16:57:29 2020
-
 @author: tapojyoti.paul
 """
 
@@ -28,11 +27,11 @@ import librosa.core
 import librosa.feature
 
 import keras.models
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, BatchNormalization, Activation, Reshape, Flatten
-from tensorflow.keras.layers import Conv2D, Cropping2D, Conv2DTranspose, Dense
+from keras.models import Model
+from keras.layers import Input, BatchNormalization, Activation, Reshape, Flatten
+from keras.layers import Conv2D, Cropping2D, Conv2DTranspose, Dense
 from keras.utils.vis_utils import plot_model
-from tensorflow.keras.backend import int_shape
+from keras.backend import int_shape
 
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from sklearn.model_selection import train_test_split
@@ -49,14 +48,14 @@ import yaml
 from numpy.random import seed
 seed(1)
 # from tensorflow import set_random_seed
-# set_random_seed(2)
+#set_random_seed(2)
 
 from sklearn.externals.joblib import load, dump
 from sklearn import preprocessing
 
 # set seed
 ########################################################################
-# set_random_seed(1234)
+#set_random_seed(1234)
 ########################################################################
 print("Loading Packages Complete")
 ########################################################################
@@ -72,12 +71,10 @@ class visualizer(object):
     def loss_plot(self, loss, val_loss):
         """
         Plot loss curve.
-
         loss : list [ float ]
             training loss time series.
         val_loss : list [ float ]
             validation loss time series.
-
         return   : None
         """
         ax = self.fig.add_subplot(1, 1, 1)
@@ -92,10 +89,8 @@ class visualizer(object):
     def save_figure(self, name):
         """
         Save figure.
-
         name : str
             save png file path.
-
         return : None
         """
         self.plt.savefig(name)
@@ -105,14 +100,12 @@ class visualizer(object):
 def file_load(wav_name, mono=False):
     """
     load .wav file.
-
     wav_name : str
         target .wav file
     sampling_rate : int
         audio file sampling_rate
     mono : boolean
         When load a multi channels file and this param True, the returned data will be merged for mono data
-
     return : numpy.array( float )
     """
     try:
@@ -130,7 +123,6 @@ def file_list_generator(target_dir,
         directory name containing training data
     ext : str (default="wav")
         file extension of audio files
-
     return :
         train_files : list [ str ]
             file list of wav files for training
@@ -158,10 +150,8 @@ def file_to_vector_array(file_name, feature_range, scaler=None,
                          power=1.0):
     """
     convert file_name to a vector array.
-
     file_name : str
         target .wav file
-
     return : numpy.array( numpy.array( float ) )
         vector array
         * dataset.shape = (dataset_size, feature_vector_length)
@@ -192,7 +182,6 @@ def list_to_vector_array(file_list, feat_path, feature_range, scaler,
     """
     convert the file_list to features and save features.
     file_to_vector_array() is iterated, and the output vector array is saved.
-
     file_list : list [ str ]
         .wav filename list of dataset
     msg : str ( default = "calc..." )
@@ -333,7 +322,6 @@ def feature_list_to_vector_array(file_list, feat_path, feature_range, scaler,
     """
     convert the file_list to features and save features.
     file_to_vector_array() is iterated, and the output vector array is saved.
-
     file_list : list [ str ]
         .wav filename list of dataset
     msg : str ( default = "calc..." )
@@ -386,7 +374,6 @@ def feature_file_list_generator(target_dir,
         directory name containing training data
     ext : str (default="wav")
         file extension of audio files
-
     return :
         train_files : list [ str ]
             file list of wav files for training
@@ -409,7 +396,6 @@ def select_dirs(param, mode, target=None):
     """
     param : dict
         baseline.yaml data
-
     return :
         if active type the development :
             dirs :  list [ str ]
@@ -511,7 +497,6 @@ def get_machine_id_list_for_test(target_dir,
         directory containing test data
     ext : str (default="wav)
         file extension of audio files
-
     return :
         machine_id_list : list [ str ]
             list of machine IDs extracted from the names of test files
@@ -544,7 +529,6 @@ def test_file_list_generator(target_dir,
         anomaly directory name
     ext : str (default="wav")
         file extension of audio files
-
     return :
         if the mode is "development":
             test_files : list [ str ]
@@ -690,10 +674,10 @@ for file_idx, file_path in tqdm(enumerate(test_files), total=len(test_files)):
         data = batch.reshape((batch.shape[0], batch.shape[1], batch.shape[2], 1))
         data_all = np.append(data_all, data, axis=0)
         # calculate predictions
-        # errors = numpy.mean(numpy.square(data - model.predict(data)), axis=-1)
+        errors = numpy.mean(numpy.square(data - model.predict(data)), axis=-1)
 
-        # y_pred[file_idx] = numpy.mean(errors)
-        # anomaly_score_list.append([os.path.basename(file_path), y_pred[file_idx]])
+        y_pred[file_idx] = numpy.mean(errors)
+        anomaly_score_list.append([os.path.basename(file_path), y_pred[file_idx]])
 
 
     except:
@@ -762,29 +746,6 @@ import logging
 from pathlib import Path
 from timeit import default_timer as timer
 
-
-import os
-import sys
-import numpy as np
-from openvino.inference_engine import IENetwork, IECore
-
-plugin_dir = None
-model_xml = '/home/ubuntu/Conv2D_AE_Validation/batch_1000/my_model.xml'
-model_bin = '/home/ubuntu/Conv2D_AE_Validation/batch_1000/my_model.bin'
-
-
-plugin_dir = None
-ie = IECore()
-# versions = ie.get_versions("CPU")
-# Read IR
-net = IENetwork(model=model_xml, weights=model_bin)
-# check net.inputs.keys(), net.outputs
-input_blob = next(iter(net.inputs))
-out_blob = next(iter(net.outputs))
-# exec_net = plugin.load(network=net)
-exec_net_100 = ie.load_network(network=net, device_name="CPU")
-del net
-
 NUM_LOOPS = 100
 def run_inference(num_observations:int = 1000):
     """Run xgboost for specified number of observations"""
@@ -811,6 +772,33 @@ def run_inference(num_observations:int = 1000):
 
     print(num_observations, ", ", calculate_stats(inference_times))
     return calculate_stats(inference_times)
+
+STATS = '#, median, mean, std_dev, min_time, max_time, quantile_10, quantile_90'
+
+
+import os
+import sys
+import numpy as np
+from openvino.inference_engine import IENetwork, IECore
+
+plugin_dir = None
+model_xml = '/home/ubuntu/Conv2D_AE_Validation/batch_1000/my_model.xml'
+model_bin = '/home/ubuntu/Conv2D_AE_Validation/batch_1000/my_model.bin'
+
+
+plugin_dir = None
+ie = IECore()
+# versions = ie.get_versions("CPU")
+# Read IR
+net = IENetwork(model=model_xml, weights=model_bin)
+# check net.inputs.keys(), net.outputs
+input_blob = next(iter(net.inputs))
+out_blob = next(iter(net.outputs))
+# exec_net = plugin.load(network=net)
+exec_net_100 = ie.load_network(network=net, device_name="CPU")
+del net
+
+NUM_LOOPS = 100
 
 def run_inference_ov(num_observations:int = 1000):
     """Run xgboost for specified number of observations"""
@@ -845,13 +833,47 @@ def run_inference_ov(num_observations:int = 1000):
     print(num_observations, ", ", calculate_stats(inference_times))
     return calculate_stats(inference_times)
 
+
+def run_inference_ov(num_observations:int = 1000):
+    """Run xgboost for specified number of observations"""
+    # Load data
+    test_df = get_test_data(num_observations)
+    data = test_df
+
+    num_rows = len(test_df)
+    # print(f"Running {NUM_LOOPS} inference loops with batch size {num_rows}...")
+
+    run_times = []
+    inference_times = []
+    for _ in range(NUM_LOOPS):
+
+        start_time = timer()
+        i = 0
+        count = 0
+        res_all = np.empty((0, 1, 32, 128), int)
+        while i<num_observations:
+            res = exec_net_100.infer(inputs={input_blob: data[i:i+1000]})
+            res_all = np.append(res_all, res['conv2d_transpose_5/BiasAdd/Add'], axis=0)
+            i = i+1000
+            count = count+1 
+        end_time = timer()
+
+        total_time = end_time - start_time
+        run_times.append(total_time*10e3)
+
+        inference_time = total_time*(10e3)/num_rows
+        inference_times.append(inference_time)
+
+    print(num_observations, ", ", calculate_stats(inference_times))
+    return calculate_stats(inference_times)
+
 STATS = '#, median, mean, std_dev, min_time, max_time, quantile_10, quantile_90'
 
 if __name__=='__main__':
-    ob_ct = 1000  # Start with a single observation
+    ob_ct = 1  # Start with a single observation
     logging.info(STATS)
     temp_df = pd.DataFrame()
-    while ob_ct <= 10000:
+    while ob_ct <= 100:
         temp = run_inference(ob_ct)
         temp["No_of_Observation"] = ob_ct
         temp_df = temp_df.append(temp)
