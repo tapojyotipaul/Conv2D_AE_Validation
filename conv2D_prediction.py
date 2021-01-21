@@ -28,11 +28,11 @@ import librosa.core
 import librosa.feature
 
 import keras.models
-from keras.models import Model
-from keras.layers import Input, BatchNormalization, Activation, Reshape, Flatten
-from keras.layers import Conv2D, Cropping2D, Conv2DTranspose, Dense
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, BatchNormalization, Activation, Reshape, Flatten
+from tensorflow.keras.layers import Conv2D, Cropping2D, Conv2DTranspose, Dense
 from keras.utils.vis_utils import plot_model
-from keras.backend import int_shape
+from tensorflow.keras.backend import int_shape
 
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from sklearn.model_selection import train_test_split
@@ -49,14 +49,14 @@ import yaml
 from numpy.random import seed
 seed(1)
 # from tensorflow import set_random_seed
-#set_random_seed(2)
+# set_random_seed(2)
 
 from sklearn.externals.joblib import load, dump
 from sklearn import preprocessing
 
 # set seed
 ########################################################################
-#set_random_seed(1234)
+# set_random_seed(1234)
 ########################################################################
 print("Loading Packages Complete")
 ########################################################################
