@@ -848,21 +848,21 @@ def run_inference_ov(num_observations:int = 1000):
 STATS = '#, median, mean, std_dev, min_time, max_time, quantile_10, quantile_90'
 
 if __name__=='__main__':
-    # ob_ct = 1000  # Start with a single observation
-    # logging.info(STATS)
-    # temp_df = pd.DataFrame()
-    # while ob_ct <= 10000:
-        # temp = run_inference(ob_ct)
-        # temp["No_of_Observation"] = ob_ct
-        # temp_df = temp_df.append(temp)
-        # ob_ct *= 10
-    # print("Summary........")
-    # print(temp_df)
+    ob_ct = 1000  # Start with a single observation
+    logging.info(STATS)
+    temp_df = pd.DataFrame()
+    while ob_ct <= 10000:
+        temp = run_inference(ob_ct)
+        temp["No_of_Observation"] = ob_ct
+        temp_df = temp_df.append(temp)
+        ob_ct *= 10
+    print("Summary........")
+    print(temp_df)
     print ("Below are the results for OpenVino.........")
     ob_ct = 1000  # Start with a single observation
     logging.info(STATS)
     temp_df = pd.DataFrame()
-    while ob_ct <= 100000:
+    while ob_ct <= 10000:
         temp = run_inference_cv(ob_ct)
         temp["No_of_Observation"] = ob_ct
         temp_df = temp_df.append(temp)
