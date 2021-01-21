@@ -674,10 +674,10 @@ for file_idx, file_path in tqdm(enumerate(test_files), total=len(test_files)):
         data = batch.reshape((batch.shape[0], batch.shape[1], batch.shape[2], 1))
         data_all = np.append(data_all, data, axis=0)
         # calculate predictions
-        errors = numpy.mean(numpy.square(data - model.predict(data)), axis=-1)
+        # errors = numpy.mean(numpy.square(data - model.predict(data)), axis=-1)
 
-        y_pred[file_idx] = numpy.mean(errors)
-        anomaly_score_list.append([os.path.basename(file_path), y_pred[file_idx]])
+        # y_pred[file_idx] = numpy.mean(errors)
+        # anomaly_score_list.append([os.path.basename(file_path), y_pred[file_idx]])
 
 
     except:
