@@ -863,7 +863,7 @@ if __name__=='__main__':
     logging.info(STATS)
     temp_df = pd.DataFrame()
     while ob_ct <= 10000:
-        temp = run_inference_cv(ob_ct)
+        temp = run_inference_ov(ob_ct)
         temp["No_of_Observation"] = ob_ct
         temp_df = temp_df.append(temp)
         ob_ct *= 10
