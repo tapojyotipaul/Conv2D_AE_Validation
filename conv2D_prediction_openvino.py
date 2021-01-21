@@ -800,45 +800,45 @@ del net
 
 NUM_LOOPS = 100
 
+# def run_inference_ov(num_observations:int = 1000):
+    # """Run xgboost for specified number of observations"""
+    # # Load data
+    # test_df = get_test_data(num_observations)
+    # data = test_df.reshape(test_df.shape[0],1,32,128)
+
+    # num_rows = len(test_df)
+    # # print(f"Running {NUM_LOOPS} inference loops with batch size {num_rows}...")
+
+    # run_times = []
+    # inference_times = []
+    # for _ in range(NUM_LOOPS):
+
+        # start_time = timer()
+        # i = 0
+        # count = 0
+        # res_all = np.empty((0, 1, 32, 128), int)
+        # while i<num_observations:
+            # res = exec_net_100.infer(inputs={input_blob: data[i:i+1000]})
+            # res_all = np.append(res_all, res['conv2d_transpose_5/BiasAdd/Add'], axis=0)
+            # i = i+1000
+            # count = count+1        
+        # end_time = timer()
+        # total_time = end_time - start_time
+        # run_times.append(total_time*10e3)
+
+        # inference_time = total_time*(10e3)/num_rows
+        # inference_times.append(inference_time)
+    
+    # print("count of batches:",count)
+    # print(num_observations, ", ", calculate_stats(inference_times))
+    # return calculate_stats(inference_times)
+
+
 def run_inference_ov(num_observations:int = 1000):
     """Run xgboost for specified number of observations"""
     # Load data
     test_df = get_test_data(num_observations)
     data = test_df.reshape(test_df.shape[0],1,32,128)
-
-    num_rows = len(test_df)
-    # print(f"Running {NUM_LOOPS} inference loops with batch size {num_rows}...")
-
-    run_times = []
-    inference_times = []
-    for _ in range(NUM_LOOPS):
-
-        start_time = timer()
-        i = 0
-        count = 0
-        res_all = np.empty((0, 1, 32, 128), int)
-        while i<num_observations:
-            res = exec_net_100.infer(inputs={input_blob: data[i:i+1000]})
-            res_all = np.append(res_all, res['conv2d_transpose_5/BiasAdd/Add'], axis=0)
-            i = i+1000
-            count = count+1        
-        end_time = timer()
-        total_time = end_time - start_time
-        run_times.append(total_time*10e3)
-
-        inference_time = total_time*(10e3)/num_rows
-        inference_times.append(inference_time)
-    
-    print("count of batches:",count)
-    print(num_observations, ", ", calculate_stats(inference_times))
-    return calculate_stats(inference_times)
-
-
-def run_inference_ov(num_observations:int = 1000):
-    """Run xgboost for specified number of observations"""
-    # Load data
-    test_df = get_test_data(num_observations)
-    data = test_df
 
     num_rows = len(test_df)
     # print(f"Running {NUM_LOOPS} inference loops with batch size {num_rows}...")
